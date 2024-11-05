@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "BaseMainCharacter.h"
 #include "InputActionValue.h"
+#include "MainCharacterPlayerState.h"
 #include "MainCharacter.generated.h"
 
 class UInputAction;
@@ -17,12 +18,15 @@ class UGroomComponent;
 
 
 UCLASS()
-class UDEMYCOURSE_API AMainCharacter : public ACharacter
+class UDEMYCOURSE_API AMainCharacter : public ABaseMainCharacter
 {
 	GENERATED_BODY()
 
 public:
 	AMainCharacter();
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+	
 
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
@@ -45,12 +49,15 @@ protected:
 	UInputAction *EKeyInputAction;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *AttackInputAction;
+	
 
 	void Move(const FInputActionValue &Value);
 	void Look(const FInputActionValue &Value);
 	void Dodge(const FInputActionValue &Value);
 	void Attack(const FInputActionValue &Value);
 	void EKey(const FInputActionValue &Value);
+
+	
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -61,6 +68,8 @@ private:
 	UGroomComponent *Hair;
 	UPROPERTY(VisibleAnywhere, Category=Hair)
 	UGroomComponent *Eyebrows;
+
+	void InitAbilityActorInfo();
 	
 	
 };

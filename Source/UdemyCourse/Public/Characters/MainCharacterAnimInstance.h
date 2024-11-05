@@ -32,3 +32,4 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category=Movement)
 	bool isFalling;
 };
+		

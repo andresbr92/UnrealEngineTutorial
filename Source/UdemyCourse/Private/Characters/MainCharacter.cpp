@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Characters/MainCharacter.h"
+
+#include "AbilitySystemComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Components/InputComponent.h"
@@ -27,6 +29,27 @@ AMainCharacter::AMainCharacter()
 	Eyebrows-> AttachmentName = FString("head");
 	bUseControllerRotationYaw = false;
 	
+	//get the player state
+	
+
+	
+	
+}
+
+void AMainCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// Init ability actor info for server
+	InitAbilityActorInfo();
+	
+	
+}
+void AMainCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	// Init ability actor info for client
+	InitAbilityActorInfo();
 }
 
 void AMainCharacter::BeginPlay()
@@ -40,6 +63,7 @@ void AMainCharacter::BeginPlay()
 			Subsystem->AddMappingContext(MainCharacterImc, 0);
 		}
 	}
+
 }
 
 void AMainCharacter::Move(const FInputActionValue& Value)
@@ -94,6 +118,18 @@ void AMainCharacter::EKey(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemp, Warning, TEXT("EKey"));
 }
+
+void AMainCharacter::InitAbilityActorInfo()
+{
+	AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
+	check(MainCharacterPlayerState);
+
+	AbilitySystemComponent = MainCharacterPlayerState->GetAbilitySystemComponent();
+	AbilitySystemComponent->InitAbilityActorInfo(MainCharacterPlayerState, this);
+	AttributeSet = MainCharacterPlayerState->GetAttributeSet();
+}
+
+
 
 
 void AMainCharacter::Tick(float DeltaTime)
