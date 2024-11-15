@@ -8,6 +8,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GroomComponent.h"
+#include "Items/Weapons/Weapon.h"
+#include "Items/Item.h"
 
 
 AMainCharacter::AMainCharacter()
@@ -66,6 +68,7 @@ void AMainCharacter::BeginPlay()
 
 }
 
+
 void AMainCharacter::Move(const FInputActionValue& Value)
 {
 	
@@ -117,6 +120,11 @@ void AMainCharacter::Attack(const FInputActionValue& Value)
 void AMainCharacter::EKey(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemp, Warning, TEXT("EKey"));
+	AWeapon* Weapon = Cast<AWeapon>(OverlappingItem);
+	if(Weapon)
+	{
+		Weapon->Equip(GetMesh(),FName("RightHandSocket"));
+	}
 }
 
 void AMainCharacter::InitAbilityActorInfo()

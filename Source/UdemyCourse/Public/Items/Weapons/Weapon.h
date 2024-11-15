@@ -13,6 +13,8 @@ UCLASS()
 class UDEMYCOURSE_API AWeapon : public AItem
 {
 	GENERATED_BODY()
+public:
+	void Equip(USceneComponent* AttachTo, FName SocketName);
 
 
 protected:

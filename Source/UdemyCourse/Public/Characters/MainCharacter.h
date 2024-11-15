@@ -14,6 +14,7 @@ class UEnhancedInputComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UGroomComponent;
+class AItem;
 
 
 
@@ -62,14 +63,25 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent *SpringArm;
+	
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent *CameraComponent;
+	
 	UPROPERTY(VisibleAnywhere, Category=Hair)
 	UGroomComponent *Hair;
+	
 	UPROPERTY(VisibleAnywhere, Category=Hair)
 	UGroomComponent *Eyebrows;
+	
+	UPROPERTY(VisibleInstanceOnly)
+	TObjectPtr<AItem> OverlappingItem; 
 
 	void InitAbilityActorInfo();
+
+	
+	// getters y setters
+public:
+	FORCEINLINE void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
 	
 	
 };
