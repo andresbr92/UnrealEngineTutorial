@@ -19,3 +19,5 @@ UAbilitySystemComponent* AMainCharacterPlayerState::GetAbilitySystemComponent() 
 {
 	return AbilitySystemComponent;
 }
+
+void AMainCharacterPlayerState::SetCharacterState(ECharacterState newState) {  CharacterState = newState; }

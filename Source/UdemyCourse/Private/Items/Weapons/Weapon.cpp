@@ -2,7 +2,6 @@
 
 
 #include "Items/Weapons/Weapon.h"
-#include "Characters/MainCharacter.h"
 
 void AWeapon::Equip(USceneComponent* AttachTo, FName SocketName)
 {

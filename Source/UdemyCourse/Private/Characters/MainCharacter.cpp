@@ -124,6 +124,10 @@ void AMainCharacter::EKey(const FInputActionValue& Value)
 	if(Weapon)
 	{
 		Weapon->Equip(GetMesh(),FName("RightHandSocket"));
+		if(AMainCharacterPlayerState* MainCharacterPs = GetPlayerState<AMainCharacterPlayerState>())
+		{
+			MainCharacterPs->SetCharacterState(ECharacterState::ECS_EquippedOneHandedWeapon);
+		}
 	}
 }
 
