@@ -10,6 +10,7 @@
 #include "GroomComponent.h"
 #include "Items/Weapons/Weapon.h"
 #include "Items/Item.h"
+#include "Animation/AnimMontage.h"
 
 
 AMainCharacter::AMainCharacter()
@@ -113,7 +114,29 @@ void AMainCharacter::Dodge(const FInputActionValue& Value)
 
 void AMainCharacter::Attack(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Attack"));
+	
+	
+	TObjectPtr<UAnimInstance> AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && AttackMontage)
+	{
+		AnimInstance->Montage_Play(AttackMontage, 1.5f);
+		
+		int32 Selection = FMath::RandRange(0, 1);
+		FName SelectionName = FName();
+		
+		switch (Selection)
+		{
+		case 0:
+			SelectionName = FName("Attack1");
+			break;
+		case 1:
+			SelectionName = FName("Attack2");
+			break;
+		
+			
+		}
+		AnimInstance->Montage_JumpToSection(SelectionName, AttackMontage);
+	}
 	
 }
 

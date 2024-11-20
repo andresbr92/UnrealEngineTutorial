@@ -15,6 +15,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UGroomComponent;
 class AItem;
+class UAnimMontage;
 
 
 
@@ -53,7 +54,7 @@ protected:
 	UInputAction *EKeyInputAction;
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction *AttackInputAction;
-	
+
 
 	void Move(const FInputActionValue &Value);
 	void Look(const FInputActionValue &Value);
@@ -77,7 +78,12 @@ private:
 	UGroomComponent *Eyebrows;
 	
 	UPROPERTY(VisibleInstanceOnly)
-	TObjectPtr<AItem> OverlappingItem; 
+	TObjectPtr<AItem> OverlappingItem;
+	/*
+	* Animation montages
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	TObjectPtr<UAnimMontage> AttackMontage;
 
 	void InitAbilityActorInfo();
 	

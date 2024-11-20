@@ -34,7 +34,7 @@ protected:
 	UFUNCTION(BlueprintPure)
 	float TransformedCos();
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* ItemMesh;
 
 	template <typename T>
