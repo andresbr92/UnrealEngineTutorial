@@ -112,7 +112,7 @@ void AMainCharacter::Dodge(const FInputActionValue& Value)
 	UE_LOG(LogTemp, Warning, TEXT("Dodge"));
 }
 
-void AMainCharacter::Attack(const FInputActionValue& Value)
+void AMainCharacter::PlayAttackAnimation()
 {
 	
 	
@@ -121,7 +121,7 @@ void AMainCharacter::Attack(const FInputActionValue& Value)
 	{
 		AnimInstance->Montage_Play(AttackMontage, 1.5f);
 		
-		int32 Selection = FMath::RandRange(0, 1);
+		const int32 Selection = FMath::RandRange(0, 1);
 		FName SelectionName = FName();
 		
 		switch (Selection)
@@ -132,11 +132,23 @@ void AMainCharacter::Attack(const FInputActionValue& Value)
 		case 1:
 			SelectionName = FName("Attack2");
 			break;
-		
-			
+		default:
+			break;
 		}
 		AnimInstance->Montage_JumpToSection(SelectionName, AttackMontage);
+		
 	}
+}
+
+void AMainCharacter::Attack(const FInputActionValue& Value)
+{
+	if (GetPlayerState<AMainCharacterPlayerState>()->GetActionState() == EActionState::EAS_Unoccupied)
+	{
+		AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
+		PlayAttackAnimation();
+		MainCharacterPlayerState->SetActionState(EActionState::EAS_Attacking);
+	}
+		
 	
 }
 

@@ -29,9 +29,7 @@ public:
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
 	
-	FORCEINLINE void SetCharacterState(ECharacterState newState);
-	
-	ECharacterState GetCharacterState() const { return CharacterState; }
+
 
 protected:
 	UPROPERTY()
@@ -42,4 +40,18 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Character State")
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess="true"), Category = "Character State")
+	EActionState ActionState = EActionState::EAS_Unoccupied;
+	/*
+	 * getters & setters
+	 */
+public:
+	// Character State
+	FORCEINLINE void SetCharacterState(ECharacterState newState);
+	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
+	
+	// Combat state
+	FORCEINLINE void SetActionState(EActionState newState);
+	FORCEINLINE EActionState GetActionState() const { return ActionState; }
+	
 };

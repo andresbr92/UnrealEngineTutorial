@@ -59,6 +59,7 @@ protected:
 	void Move(const FInputActionValue &Value);
 	void Look(const FInputActionValue &Value);
 	void Dodge(const FInputActionValue &Value);
+	void PlayAttackAnimation();
 	void Attack(const FInputActionValue &Value);
 	void EKey(const FInputActionValue &Value);
 
