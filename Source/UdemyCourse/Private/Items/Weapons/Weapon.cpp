@@ -5,6 +5,7 @@
 
 void AWeapon::Equip(USceneComponent* AttachTo, FName SocketName)
 {
+	ItemState = EItemState::EIS_Equipped;
 	FAttachmentTransformRules TransformRules(EAttachmentRule::SnapToTarget,true);
 	ItemMesh->AttachToComponent(AttachTo,TransformRules, SocketName);
 }

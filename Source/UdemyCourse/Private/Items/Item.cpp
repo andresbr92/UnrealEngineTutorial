@@ -92,8 +92,11 @@ void AItem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	RunningTime += DeltaTime;
 
-
-	//AddActorWorldOffset(FVector(0.f, 0.f, TransformedSin(RunningTime)));
+	if (ItemState == EItemState::EIS_Hovering)
+	{
+		AddActorWorldOffset(FVector(0.f, 0.f, TransformedSin()));
+	}
+	
 	//AddActorWorldRotation(FRotator(0.f, 1.f, 0.f));
 
 	//DRAW_SPHERE(GetActorLocation());

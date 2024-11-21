@@ -8,6 +8,11 @@
 
 
 class USphereComponent;
+enum class EItemState : uint8
+{
+	EIS_Hovering,
+	EIS_Equipped
+};
 
 UCLASS()
 class UDEMYCOURSE_API AItem : public AActor
@@ -44,6 +49,8 @@ protected:
 	virtual void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 	UFUNCTION()
 	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	EItemState ItemState = EItemState::EIS_Hovering;
 private:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
