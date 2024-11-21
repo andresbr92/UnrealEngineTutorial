@@ -21,7 +21,7 @@ public:
 	virtual void NativeInitializeAnimation() override;
 	virtual void NativeUpdateAnimation(float DeltaTime) override;
 	
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	class AMainCharacter* MainCharacter;
 	
 	UPROPERTY(BlueprintReadOnly, Category=Movement)

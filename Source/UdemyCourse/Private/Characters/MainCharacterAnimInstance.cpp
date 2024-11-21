@@ -14,6 +14,8 @@ void UMainCharacterAnimInstance::NativeInitializeAnimation()
 	if(MainCharacter)
 	{
 		 MainCharacterMovementComponent = MainCharacter->GetCharacterMovement();
+		printf("MainCharacterMovementComponent %p\n", MainCharacterMovementComponent);
+		
 	}
 }
 
