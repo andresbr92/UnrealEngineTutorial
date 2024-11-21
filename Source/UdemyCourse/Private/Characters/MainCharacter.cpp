@@ -72,6 +72,9 @@ void AMainCharacter::BeginPlay()
 
 void AMainCharacter::Move(const FInputActionValue& Value)
 {
+	AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
+	if (MainCharacterPlayerState->GetActionState() == EActionState::EAS_Attacking)
+		return;
 	
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -140,11 +143,26 @@ void AMainCharacter::PlayAttackAnimation()
 	}
 }
 
+void AMainCharacter::AttackEnd()
+{
+
+	if (AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>())
+		MainCharacterPlayerState->SetActionState(EActionState::EAS_Unoccupied);
+}
+
+bool AMainCharacter::CanAttack()
+{
+	AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
+	return MainCharacterPlayerState->GetActionState() == EActionState::EAS_Unoccupied &&
+		MainCharacterPlayerState->GetCharacterState() != ECharacterState::ECS_Unequipped;
+}
+
 void AMainCharacter::Attack(const FInputActionValue& Value)
 {
-	if (GetPlayerState<AMainCharacterPlayerState>()->GetActionState() == EActionState::EAS_Unoccupied)
+	AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
+	
+	if (CanAttack())
 	{
-		AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
 		PlayAttackAnimation();
 		MainCharacterPlayerState->SetActionState(EActionState::EAS_Attacking);
 	}
