@@ -4,7 +4,7 @@
 Assets
 Content/*
 # Excepción para incluir la carpeta blueprints dentro de Content
-
+!Content/Blueprints
 
 # Compiled Object files
 *.slo
