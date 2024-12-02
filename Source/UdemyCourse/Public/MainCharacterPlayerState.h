@@ -10,13 +10,8 @@
 
 class UAttributeSet;
 class UAbilitySystemComponent;
-/**
- * @enum ECharacterState
- * @brief Defines the different states of a character.
- *
- * This enumeration is used to represent the possible states a character can be in,
- * primarily focusing on their equipment status.
- */
+
+
 
 UCLASS()
 class UDEMYCOURSE_API AMainCharacterPlayerState : public APlayerState, public IAbilitySystemInterface
@@ -47,11 +42,11 @@ private:
 	 */
 public:
 	// Character State
-	FORCEINLINE void SetCharacterState(ECharacterState newState);
+	void SetCharacterState(ECharacterState newState);
 	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 	
 	// Combat state
-	FORCEINLINE void SetActionState(EActionState newState);
+	void SetActionState(EActionState newState);
 	FORCEINLINE EActionState GetActionState() const { return ActionState; }
 	
 };

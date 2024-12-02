@@ -96,7 +96,7 @@ void AMainCharacterEffectActor::OnEndOverlap(AActor* TargetActor)
 		{
 			if (GE_ASC_HandlePair.Value == TargetASC)
 			{
-				TargetASC->RemoveActiveGameplayEffect(GE_ASC_HandlePair.Key);
+				TargetASC->RemoveActiveGameplayEffect(GE_ASC_HandlePair.Key, 1);
 				HandlesToRemove.Add(GE_ASC_HandlePair.Key);
 			}
 		}
