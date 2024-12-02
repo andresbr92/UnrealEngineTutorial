@@ -65,7 +65,7 @@ void UBaseMainAttributeSet::SetEffectPropperties(const FGameplayEffectModCallbac
 		}
 		if (EffectProperties.SourceController)
 		{
-			const ACharacter* SourceCharacter = Cast<ACharacter>(EffectProperties.SourceController);
+			const ACharacter* SourceCharacter = Cast<ACharacter>(EffectProperties.SourceController->GetPawn());
 		}
 		
 	}
