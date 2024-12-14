@@ -33,6 +33,10 @@
 		{
 			"Name": "LudusAI",
 			"Enabled": false
+		},
+		{
+			"Name": "MultiplayerSessions",
+			"Enabled": true
 		}
 	]
 }
