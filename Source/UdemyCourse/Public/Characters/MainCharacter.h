@@ -94,7 +94,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	TObjectPtr<UAnimMontage> AttackMontage;
 
-	void InitAbilityActorInfo();
+	virtual void InitAbilityActorInfo() override;
 	
 
 	

@@ -8,6 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GroomComponent.h"
+#include "AbilitySystem/BaseMainAbilitySystemComponent.h"
 #include "Items/Weapons/Weapon.h"
 #include "Items/Item.h"
 #include "Animation/AnimMontage.h"
@@ -166,6 +167,7 @@ void AMainCharacter::Attack(const FInputActionValue& Value)
 		PlayAttackAnimation();
 		MainCharacterPlayerState->SetActionState(EActionState::EAS_Attacking);
 	}
+	
 		
 	
 }
@@ -191,7 +193,20 @@ void AMainCharacter::InitAbilityActorInfo()
 
 	AbilitySystemComponent = MainCharacterPlayerState->GetAbilitySystemComponent();
 	AbilitySystemComponent->InitAbilityActorInfo(MainCharacterPlayerState, this);
+	// Call the AbilityActorInfoSet function in the BaseMainAbilitySystemComponent
+	UBaseMainAbilitySystemComponent* BaseMainAbilitySystemComponent = Cast<UBaseMainAbilitySystemComponent>(AbilitySystemComponent);
+	BaseMainAbilitySystemComponent->OnEffectAssetTags.AddLambda(
+		[](FGameplayTagContainer TagContainer)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Effect Applied from delegate"));
+		}
+		);
+	BaseMainAbilitySystemComponent->AbilityActorInfoSet();
 	AttributeSet = MainCharacterPlayerState->GetAttributeSet();
+	
+	InitializeAttributes();
+	
+	AddCharacterAbilities();
 }
 
 

@@ -3,6 +3,9 @@
 
 #include "Characters/BaseMainCharacter.h"
 
+#include "AbilitySystemComponent.h"
+#include "AbilitySystem/BaseMainAbilitySystemComponent.h"
+
 // Sets default values
 ABaseMainCharacter::ABaseMainCharacter()
 {
@@ -21,6 +24,35 @@ void ABaseMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABaseMainCharacter::InitAbilityActorInfo()
+{
+}
+
+void ABaseMainCharacter::InitializeAttributes()
+{
+	if (!IsValid(AbilitySystemComponent)) return;
+	if (!IsValid(DefaultAttributes))
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s() Missing DefaultAttributes for %s. Please fill in the character's Blueprint."), *FString(__FUNCTION__), *GetName());
+	}
+	
+	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+	// Add source
+	EffectContext.AddSourceObject(this);
+	FGameplayEffectSpecHandle EffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributes, 1.f, EffectContext);
+	if (EffectSpecHandle.IsValid())
+	{
+		AbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*EffectSpecHandle.Data.Get(), AbilitySystemComponent.Get());
+	}
+}
+
+void ABaseMainCharacter::AddCharacterAbilities()
+{
+	if (!HasAuthority() || !IsValid(AbilitySystemComponent)) return;
+	UBaseMainAbilitySystemComponent* BaseMainAbilitySystemComponent = CastChecked<UBaseMainAbilitySystemComponent>(AbilitySystemComponent);
+	BaseMainAbilitySystemComponent->AddCharacterAbilities(StartupAbilities);
 }
 
 // Called every frame

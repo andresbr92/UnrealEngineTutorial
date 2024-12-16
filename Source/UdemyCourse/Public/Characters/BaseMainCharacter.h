@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "BaseMainCharacter.generated.h"
 
+class UGameplayAbility;
 class UAttributeSet;
 class UAbilitySystemComponent;
 
@@ -35,8 +36,17 @@ protected:
 	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category="Default Attributes")
+	TSubclassOf<class UGameplayEffect> DefaultAttributes;
+	
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 	
+	virtual void InitAbilityActorInfo();
+	virtual void InitializeAttributes();
+	void AddCharacterAbilities();
+private:
+	UPROPERTY(EditAnywhere, Category="Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };
