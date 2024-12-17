@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "BaseMainCharacter.h"
+#include "GameplayTagContainer.h"
 #include "InputActionValue.h"
 #include "MainCharacterPlayerState.h"
+
 #include "MainCharacter.generated.h"
 
 class UInputAction;
@@ -16,6 +18,7 @@ class UCameraComponent;
 class UGroomComponent;
 class AItem;
 class UAnimMontage;
+class UInputConfig;
 
 
 
@@ -93,9 +96,16 @@ private:
 	*/
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	TObjectPtr<UAnimMontage> AttackMontage;
+	TObjectPtr<class UBaseMainAbilitySystemComponent> BaseMainAsc;
+	UBaseMainAbilitySystemComponent* GetBaseAsc();
 
 	virtual void InitAbilityActorInfo() override;
-	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UInputConfig> InputConfig;
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	
 	// getters y setters

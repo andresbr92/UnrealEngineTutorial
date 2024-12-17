@@ -12,6 +12,7 @@
 #include "Items/Weapons/Weapon.h"
 #include "Items/Item.h"
 #include "Animation/AnimMontage.h"
+#include "Input/MainInputComponent.h"
 
 
 AMainCharacter::AMainCharacter()
@@ -186,12 +187,22 @@ void AMainCharacter::EKey(const FInputActionValue& Value)
 	}
 }
 
+UBaseMainAbilitySystemComponent* AMainCharacter::GetBaseAsc()
+{
+	if (BaseMainAsc == nullptr)
+	{
+		BaseMainAsc = Cast<UBaseMainAbilitySystemComponent>(AbilitySystemComponent);
+	}
+	return BaseMainAsc;
+}
+
 void AMainCharacter::InitAbilityActorInfo()
 {
 	AMainCharacterPlayerState* MainCharacterPlayerState = GetPlayerState<AMainCharacterPlayerState>();
 	check(MainCharacterPlayerState);
 
 	AbilitySystemComponent = MainCharacterPlayerState->GetAbilitySystemComponent();
+	
 	AbilitySystemComponent->InitAbilityActorInfo(MainCharacterPlayerState, this);
 	// Call the AbilityActorInfoSet function in the BaseMainAbilitySystemComponent
 	UBaseMainAbilitySystemComponent* BaseMainAbilitySystemComponent = Cast<UBaseMainAbilitySystemComponent>(AbilitySystemComponent);
@@ -209,7 +220,25 @@ void AMainCharacter::InitAbilityActorInfo()
 	AddCharacterAbilities();
 }
 
+void AMainCharacter::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, InputTag.ToString());
+	
+}
 
+void AMainCharacter::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (GetBaseAsc() == nullptr) return;
+	GetBaseAsc()->AbilityInputTagReleased(InputTag);
+}
+
+void AMainCharacter::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	if (GetBaseAsc() == nullptr) return;
+
+	GetBaseAsc()->AbilityInputTagHeld(InputTag);
+}
 
 
 void AMainCharacter::Tick(float DeltaTime)
@@ -223,13 +252,20 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	if (UEnhancedInputComponent *MyInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	if (UMainInputComponent *MainInputComponent = CastChecked<UMainInputComponent>(PlayerInputComponent))
 	{
-		MyInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Move);
-		MyInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Look);
-		MyInputComponent->BindAction(JumpInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Jump);
-		MyInputComponent->BindAction(DodgeInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Dodge);
-		MyInputComponent->BindAction(AttackInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Attack);
-		MyInputComponent->BindAction(EKeyInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::EKey);
+		MainInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Move);
+		MainInputComponent->BindAction(LookInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Look);
+		MainInputComponent->BindAction(JumpInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Jump);
+		MainInputComponent->BindAction(DodgeInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Dodge);
+		MainInputComponent->BindAction(AttackInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::Attack);
+		MainInputComponent->BindAction(EKeyInputAction, ETriggerEvent::Triggered, this, &AMainCharacter::EKey);
+		MainInputComponent->BindAbilityActions(
+			InputConfig,
+			this,
+			&ThisClass::AbilityInputTagPressed,
+			&ThisClass::AbilityInputTagReleased,
+			&ThisClass::AbilityInputTagHeld
+			);
 	}
 }
